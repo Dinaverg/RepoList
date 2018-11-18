@@ -1,7 +1,6 @@
 'use strict'
 
 function searchUser() {
-    console.log("yoyo");
     $('form').submit(event => {
         event.preventDefault()
         let user = $("#search").val()
@@ -12,18 +11,19 @@ function searchUser() {
                 }
                 throw new Error(response.statusText)
             })
-            .then(responseJson => parseResponse(responseJson))
+            .then(responseJson => renderResponse(responseJson))
             .catch(error => console.log(error))
     })
 }
 
-function parseResponse(obj) {
+function renderResponse(arr) {
     $(".results").empty()
-    console.log(obj)
-    for (let i=0; i < obj.length; i++) {
-        $(".results").append(`<p>${obj[i].full_name}</p> <p>${obj[i].html_url}</p>`)
+    console.log(arr);
+    let sum = ``
+    for (let i=0; i < arr.length; i++) {
+        sum += (`<p><a href=${arr[i].html_url}>${arr[i].name}</a><br>${arr[i].description}</p>`)
     }
-    $(".results").css("display","block")
+    $(".results").append(sum)
 }
 
 $(searchUser)
